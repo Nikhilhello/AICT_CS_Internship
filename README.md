@@ -39,3 +39,8 @@ Ensure you have Python installed. Download from: [Python Official Website](https
 Run the following command in the terminal:  
 ```bash
 pip install pillow stegano cryptography bcrypt
+
+
+### **3️⃣ Running the Application**
+-Open the project folder in VS Code or IDLE.
+-Select an image, enter a message, and encrypt it!
