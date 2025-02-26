@@ -114,16 +114,8 @@ with tab2:
                     try:
                         decrypted_text = decrypt_message(encrypted_msg)
                         st.success("✅ Message decrypted successfully!")
-
                         # Display decrypted text
-                        decrypted_text_area = st.text_area("Decrypted Message:", decrypted_text, height=150)
-
-                        # Add "Copy to Clipboard" button
-                        if decrypted_text:
-                            if st.button("📋 Copy to Clipboard"):
-                                pyperclip.copy(decrypted_text)
-                                st.success("Decrypted text copied! ✅")
-
+                        st.text_area("Decrypted Message", decrypted_text, height=150)
                     except Exception as decryption_error:
                         st.error(f"❌ Error decrypting message: {decryption_error}")
                 else:
