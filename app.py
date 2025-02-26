@@ -113,11 +113,23 @@ with tab2:
                         decrypted_text = decrypt_message(encrypted_msg)
                         st.success("✅ Message decrypted successfully!")
                         decrypted_message = st.text_area("Decrypted Message:", decrypted_text, height=150)
-                        # Add "Copy" button
-                        if decrypted_text:
-                            if st.button("📋 Copy to Clipboard"):
-                                pyperclip.copy(decrypted_text)
-                                st.success("Decrypted text copied!")
+                        
+                        # Add a Copy button with JavaScript
+                        st.markdown(
+                            """
+                            <button onclick="copyToClipboard()" style="padding:10px; font-size:15px; border-radius:5px; background:#4CAF50; color:white; border:none; cursor:pointer;">📋 Copy to Clipboard</button>
+                            <script>
+                                function copyToClipboard() {
+                                    var textArea = document.querySelector('textarea');
+                                    textArea.select();
+                                    document.execCommand('copy');
+                                    alert("Decrypted text copied!");
+                                }
+                            </script>
+                            """,
+                            unsafe_allow_html=True
+                        )
+
                     except Exception as decryption_error:
                         st.error(f"❌ Error decrypting message: {decryption_error}")
                 else:
