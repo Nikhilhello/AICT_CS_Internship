@@ -5,18 +5,20 @@ from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
 
-def show_alert(message, alert_type="info"):
-    if alert_type == "info":
-        st.info(message)
-    elif alert_type == "success":
-        st.success(message)
-    elif alert_type == "warning":
-        st.warning(message)
-    elif alert_type == "error":
-        st.error(message)
 
-# Example Usage:
-show_alert("Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.", "info")
+# Check if the alert has already been shown
+if "alert_shown" not in st.session_state:
+    st.session_state.alert_shown = False
+
+# Function to show alert only once
+def show_alert_once():
+    if not st.session_state.alert_shown:
+        st.info("🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.")
+        st.session_state.alert_shown = True  # Set flag to True so it doesn't show again
+
+# Call the function to show the alert on page load
+show_alert_once()
+
 
 
 # Store the encryption key persistently
