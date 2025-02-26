@@ -6,63 +6,19 @@ from cryptography.fernet import Fernet
 import bcrypt
 
 
-import streamlit as st
 
-# Initialize session state to track if the popup is dismissed
-if "popup_shown" not in st.session_state:
-    st.session_state.popup_shown = False
+# Check if the alert has already been shown
+if "alert_shown" not in st.session_state:
+    st.session_state.alert_shown = False
 
-# Function to dismiss the popup
-def dismiss_popup():
-    st.session_state.popup_shown = True
+def show_alert():
+    if not st.session_state.alert_shown:
+        st.warning("Welcome! Encrypt and decrypt your messages securely. ⚡")
+        st.session_state.alert_shown = True  # Mark alert as shown
 
-# Display popup only if it hasn't been dismissed
-if not st.session_state.popup_shown:
-    # Apply CSS for blur effect
-    st.markdown(
-        """
-        <style>
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .popup {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
-        }
-        </style>
-        <div class="overlay">
-            <div class="popup">
-                <h2>Welcome to the Steganography Tool! 🔐</h2>
-                <p>Encrypt and decrypt messages securely within images.</p>
-                <p>Click "OK" to continue.</p>
-                <button onclick="document.querySelector('.overlay').style.display='none'; fetch('/dismiss_popup')">OK</button>
-            </div>
-        </div>
-        <script>
-        function dismissPopup() {
-            document.querySelector('.overlay').style.display = 'none';
-            fetch('/dismiss_popup');
-        }
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
+# Call the function at the start of the app
+show_alert()
 
-    # Button to dismiss the popup (triggers session state update)
-    st.button("OK", on_click=dismiss_popup)
 
 
 
