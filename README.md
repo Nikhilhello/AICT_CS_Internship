@@ -42,8 +42,8 @@ pip install pillow stegano cryptography bcrypt
 ```
 
 ### **3️⃣ Running the Application**
--Open the project folder in VS Code or IDLE.      
--Select an image, enter a message, and encrypt it!
+- Open the project folder in VS Code or IDLE.      
+- Select an image, enter a message, and encrypt it!
 
 ---
 
