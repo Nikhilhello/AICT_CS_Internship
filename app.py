@@ -4,6 +4,7 @@ from PIL import Image
 from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
+import pyperclip
 
 
 
@@ -111,7 +112,12 @@ with tab2:
                     try:
                         decrypted_text = decrypt_message(encrypted_msg)
                         st.success("✅ Message decrypted successfully!")
-                        st.text_area("Decrypted Message", decrypted_text, height=100)
+                        decrypted_message = st.text_area("Decrypted Message:", decrypted_message, height=150)
+                        # Add "Copy" button
+                        if decrypted_message:
+                            if st.button("📋 Copy to Clipboard"):
+                                pyperclip.copy(decrypted_message)
+                                st.success("Decrypted text copied!")
                     except Exception as decryption_error:
                         st.error(f"❌ Error decrypting message: {decryption_error}")
                 else:
