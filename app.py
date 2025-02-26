@@ -11,7 +11,7 @@ theme_option = st.sidebar.radio("🌓 Select Theme", ["🌞 Light", "🌙 Dark"]
 
 # Define Theme Colors
 light_theme = {
-    "backgroundColor": "#292929",
+    "backgroundColor": "#ffffff",
     "secondaryBackgroundColor": "#f0f2f6",
     "textColor": "#000000",
     "primaryColor": "#ff4b4b",
@@ -20,7 +20,7 @@ light_theme = {
 }
 
 dark_theme = {
-    "backgroundColor": "#0e1117",
+    "backgroundColor": "#292929",
     "secondaryBackgroundColor": "#262730",
     "textColor": "#ffffff",
     "primaryColor": "#ff4b4b",
