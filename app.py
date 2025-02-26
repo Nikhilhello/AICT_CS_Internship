@@ -121,6 +121,9 @@ with tab2:
             st.warning("⚠️ Please provide all inputs.")
 
 st.markdown("---")
-st.write("            👨‍💻 Developed by **Nikhil K.**                 ")
+st.markdown(
+    "<div style='text-align: center;'>👨‍💻 Developed by Nikhil K.</div>",
+    unsafe_allow_html=True
+)
 
 
