@@ -1,8 +1,9 @@
-# AICT_Cyber Security(CS)_Internship_JAN-2025
-This project was developed as part of the **Edunet Foundation internship**, a **6-week program** from **January 15, 2025**, to **February 26, 2025**. 
+# AICT_Cyber Security(CS)_Internship_B4_JAN-2025
+This project was developed as part of the **Edunet Foundation internship**, a **6-week program** from **January 15, 2025** to **February 26, 2025**. 
 
+### 👉 "For deployment details, scroll down 👇 or view the end of the README file (deployed in Streamlit.app)."
 
-# 🛡️ Steganography and Encryption Tool
+# 🛡️ Image Steganography and Encryption Tool
 
 ## 📌 Project Overview  
 This project is a **Steganography and Encryption Tool** that allows users to **securely hide messages inside images** using **Least Significant Bit (LSB) encoding**. Additionally, messages are **encrypted with a password** to ensure data security.
@@ -45,7 +46,6 @@ Run the program:
 ```
 image.py
 ```
-
 ### **3️⃣ Running the Application**
 - Open the project folder in VS Code or IDLE.      
 - Select an image, enter a message, and encrypt it!
@@ -75,6 +75,23 @@ image.py
 This project addresses the growing need for **secure digital communication** by integrating encryption with steganography. It provides a **user-friendly** way to protect sensitive information and can be expanded with advanced **security features** in the future.   
 
 ---
+# ----->🌍 Deployment details<-----
+**Streamlit does not support Tkinter** because Streamlit is a web-based framework, while Tkinter is a GUI library for desktop applications.
+However, there are some **similar functionality** in Streamlit, we can use **Streamlit's built-in widgets** (st.button, st.text_input, st.selectbox, etc.) to create interactive elements instead of using Tkinter.
+
+# **Changes Made for Streamlit Deployment**
+The **core algorithm remains the same**, but modifications were made to adapt the application for Streamlit, since Tkinter is not supported in Streamlit.
+
+**Key Changes:**            
+✅ Removed Tkinter UI elements and replaced them with Streamlit widgets.             
+✅ Used st.file_uploader instead of Tkinter's file dialogs.               
+✅ Modified event-based logic to align with Streamlit’s reactive model.            
+
+# Required Files:                      
+1. **app.py** → The main Streamlit script.                              
+2. **requirements.txt** → Contains all required Python dependencies.               
+
+## for more detailed information check out the 
 
 ### **🎓 Credits**               
 Developed by **Nikhil K**   
