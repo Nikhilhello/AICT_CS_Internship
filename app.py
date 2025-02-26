@@ -88,6 +88,19 @@ st.markdown(
         .stSelectbox div, .stCheckbox div {{
             color: {theme["textColor"]} !important;
         }}
+        st.markdown(
+    """
+    <style>
+        /* Fix for File Uploader Drag & Drop Text */
+        div.stFileUploader > label > div {
+            color: white !important;
+            font-weight: bold;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
     </style>
     """,
     unsafe_allow_html=True
