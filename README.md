@@ -1,4 +1,5 @@
 # AICT_Cyber Security(CS)_Internship_JAN-2025
+This project was developed as part of the **Edunet Foundation internship**, a **6-week program** from **January 15, 2025, to February 26, 2025**. 
 
 
 # 🛡️ Steganography and Encryption Tool
@@ -40,6 +41,10 @@ Run the following command in the terminal:
 ```bash
 pip install pillow stegano cryptography bcrypt
 ```
+Run the program:
+```
+image.py
+```
 
 ### **3️⃣ Running the Application**
 - Open the project folder in VS Code or IDLE.      
@@ -66,8 +71,8 @@ pip install pillow stegano cryptography bcrypt
 ☁ **Cloud Storage Integration** – Secure online storage and sharing.                      
 🎵 **Audio/Video Steganography** – Hiding messages in media files.                          
                       
-🏆 **Conclusion**                                      
-This project provides a simple yet powerful method to securely hide and retrieve messages using encryption and steganography. It is designed for journalists, cybersecurity professionals, and privacy-conscious users who need a safe and undetectable communication method.    
+🏆 **Conclusion**       
+This project addresses the growing need for **secure digital communication** by integrating encryption with steganography. It provides a **user-friendly** way to protect sensitive information and can be expanded with advanced **security features** in the future.   
 
 ---
 
