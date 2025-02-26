@@ -114,7 +114,7 @@ with tab2:
                         st.success("✅ Message decrypted successfully!")
                         decrypted_message = st.text_area("Decrypted Message:", decrypted_text, height=150)
                         # Ensure decrypted message exists                        
-                        st.text_area("Decrypted Message:", decrypted_text, height=150, key="decrypted_text")
+                        st.text_area("Decrypted Message:", decrypted_message, height=150, key="decrypted_text")
                         
                         # Function to copy text
                         def copy_to_clipboard():
