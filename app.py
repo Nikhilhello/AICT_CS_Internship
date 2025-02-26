@@ -5,7 +5,6 @@ from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
 
-import streamlit as st
 
 # Sidebar Theme Toggle
 theme_option = st.sidebar.radio("🌓 Select Theme", ["🌞 Light", "🌙 Dark"], index=1)
