@@ -39,8 +39,41 @@ Ensure you have Python installed. Download from: [Python Official Website](https
 Run the following command in the terminal:  
 ```bash
 pip install pillow stegano cryptography bcrypt
-
+```
 
 ### **3️⃣ Running the Application**
--Open the project folder in VS Code or IDLE.
+-Open the project folder in VS Code or IDLE.      
 -Select an image, enter a message, and encrypt it!
+
+---
+
+### **🔑 Usage Guidelines**    
+**For Encryption:**            
+--> Choose a clear PNG/JPG image.             
+--> Enter a strong password to protect the message.                     
+--> Save the encoded image for future retrieval.                        
+**For Decryption:**                         
+--> Load the encoded image into the tool.                 
+--> Enter the correct password to reveal the message.  
+
+**⚠ Note:** If the wrong password is entered, decryption will fail!                             
+
+---
+
+📌 **Future Scope**                
+🚀 **AES-256 Encryption** – Implementing even stronger encryption methods.                  
+📱**Mobile App Development** – Expanding to Android/iOS.                  
+☁ **Cloud Storage Integration** – Secure online storage and sharing.                      
+🎵 **Audio/Video Steganography** – Hiding messages in media files.                          
+                      
+🏆 **Conclusion**                                      
+This project provides a simple yet powerful method to securely hide and retrieve messages using encryption and steganography. It is designed for journalists, cybersecurity professionals, and privacy-conscious users who need a safe and undetectable communication method.    
+
+---
+
+### **🎓 Credits **               
+Developed by **Nikhil K**   
+
+**_🔒 Stay Secure, Stay Private! 🔐_**
+
+
