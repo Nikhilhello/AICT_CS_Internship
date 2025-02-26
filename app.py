@@ -8,54 +8,62 @@ import bcrypt
 
 import streamlit as st
 
-# Check if the alert has already been dismissed
-if "show_alert" not in st.session_state:
-    st.session_state.show_alert = True  # Show alert initially
+# Initialize session state to track if the popup is dismissed
+if "popup_shown" not in st.session_state:
+    st.session_state.popup_shown = False
 
-# Function to dismiss the alert
-def dismiss_alert():
-    st.session_state.show_alert = False
+# Function to dismiss the popup
+def dismiss_popup():
+    st.session_state.popup_shown = True
 
-# Custom styling for a cleaner look
-st.markdown(
-    """
-    <style>
-    .alert-box {
-        background-color: #FFF3CD; 
-        padding: 12px 15px; 
-        border-radius: 8px; 
-        border-left: 5px solid #FFA500; 
-        font-size: 16px;
-        color: #856404;
-        display: flex; 
-        justify-content: space-between; 
-        align-items: center;
-    }
-    .close-btn {
-        background: none;
-        border: none;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        color: #856404;
-    }
-    .close-btn:hover {
-        color: #D39E00;
-    }
-    </style>
-    """, unsafe_allow_html=True
-)
+# Display popup only if it hasn't been dismissed
+if not st.session_state.popup_shown:
+    # Apply CSS for blur effect
+    st.markdown(
+        """
+        <style>
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+        }
+        </style>
+        <div class="overlay">
+            <div class="popup">
+                <h2>Welcome to the Steganography Tool! 🔐</h2>
+                <p>Encrypt and decrypt messages securely within images.</p>
+                <p>Click "OK" to continue.</p>
+                <button onclick="document.querySelector('.overlay').style.display='none'; fetch('/dismiss_popup')">OK</button>
+            </div>
+        </div>
+        <script>
+        function dismissPopup() {
+            document.querySelector('.overlay').style.display = 'none';
+            fetch('/dismiss_popup');
+        }
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
 
-# Display the alert only if it hasn't been dismissed
-if st.session_state.show_alert:
-    col1, col2 = st.columns([8, 1])  # Two columns: Message (8 parts) & Button (1 part)
-    
-    with col1:
-        st.markdown('<div class="alert-box">🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.</div>', unsafe_allow_html=True)
-    
-    with col2:
-        if st.button("❌", key="close_alert", help="Dismiss this alert"):
-            dismiss_alert()
+    # Button to dismiss the popup (triggers session state update)
+    st.button("OK", on_click=dismiss_popup)
+
 
 
 
