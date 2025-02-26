@@ -121,8 +121,6 @@ with tab2:
             st.warning("⚠️ Please provide all inputs.")
 
 st.markdown("---")
-st.write("")
-st.write("")
-st.write("👨‍💻 Developed by **Nikhil K.**", align="center")
+st.write("            👨‍💻 Developed by **Nikhil K.**                 ")
 
 
