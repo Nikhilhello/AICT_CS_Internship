@@ -4,9 +4,6 @@ from PIL import Image
 from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
-import pyperclip
-import time
-
 
 
 # Store the encryption key persistently
