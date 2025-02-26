@@ -112,7 +112,7 @@ with tab2:
                     try:
                         decrypted_text = decrypt_message(encrypted_msg)
                         st.success("✅ Message decrypted successfully!")
-                        st.text_area("Decrypted Message:", decrypted_text, height=150)
+                        st.text_area("Decrypted Message", decrypted_text, height=100)
                     except Exception as decryption_error:
                         st.error(f"❌ Error decrypting message: {decryption_error}")
                 else:
