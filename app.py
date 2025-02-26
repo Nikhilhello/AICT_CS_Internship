@@ -16,38 +16,14 @@ def dismiss_alert():
 
 # Display the alert only if it hasn't been dismissed
 if st.session_state.show_alert:
-    st.markdown(
-        """
-        <div style="
-            background-color: #FFF3CD; 
-            padding: 10px; 
-            border-radius: 5px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            border: 1px solid #FFEEBA;
-        ">
-            <span style="color: #856404; font-size: 16px;">
-                🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.
-            </span>
-            <button onclick="closeAlert()" style="
-                background: none; 
-                border: none; 
-                font-size: 16px; 
-                color: #856404; 
-                cursor: pointer;
-            ">❌</button>
-        </div>
-        <script>
-            function closeAlert() {
-                var alertBox = document.querySelector('div[style*="background-color: #FFF3CD"]');
-                alertBox.style.display = 'none';
-                fetch('/_st_hidden_close_alert')  // Trigger backend to update session state
-            }
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
+    col1, col2 = st.columns([8, 1])  # Two columns: Message (8 parts) & Button (1 part)
+    
+    with col1:
+        st.warning("🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.")
+    
+    with col2:
+        if st.button("❌"):
+            dismiss_alert()
 
 
 
