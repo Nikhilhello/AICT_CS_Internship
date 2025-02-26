@@ -3,5 +3,4 @@ cryptography
 pillow
 stegano
 tk
-pyperclip
-time
+
