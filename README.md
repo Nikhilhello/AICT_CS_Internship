@@ -71,7 +71,7 @@ This project provides a simple yet powerful method to securely hide and retrieve
 
 ---
 
-### **🎓 Credits **               
+### **🎓 Credits**               
 Developed by **Nikhil K**   
 
 **_🔒 Stay Secure, Stay Private! 🔐_**
