@@ -7,8 +7,6 @@ import bcrypt
 
 import streamlit as st
 
-import streamlit as st
-
 # Sidebar Theme Toggle
 theme_option = st.sidebar.radio("🌓 Select Theme", ["🌞 Light", "🌙 Dark"], index=1)
 
@@ -75,10 +73,26 @@ st.markdown(
         h1, h2, h3, h4, h5, h6 {{
             color: {theme["textColor"]} !important;
         }}
+
+        /* Ensuring All Text is Visible */
+        p, span, div, label, li, ul, ol, table, td, th {{
+            color: {theme["textColor"]} !important;
+        }}
+
+        /* Fixing Specific Labels & Text Fields */
+        .stTextInput label, .stTextArea label, .stRadio label {{
+            color: {theme["textColor"]} !important;
+        }}
+
+        /* Fixing Selectbox and Checkbox Text */
+        .stSelectbox div, .stCheckbox div {{
+            color: {theme["textColor"]} !important;
+        }}
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
