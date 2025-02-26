@@ -5,6 +5,7 @@ from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
 import pyperclip
+import time
 
 
 
@@ -45,6 +46,8 @@ def decrypt_message(encrypted_message):
 st.title("🔐 Image Steganography Tool")
 
 tab1, tab2, tab3 = st.tabs(["Encrypt Image", "Decrypt Image","❓ Help"])
+
+import time  # Import at the beginning
 
 # **Encryption Tab**
 with tab1:
@@ -88,6 +91,7 @@ with tab1:
                 st.error(f"❌ Encryption failed: {e}")
         else:
             st.warning("⚠️ Please provide all inputs.")
+
 
 
 
