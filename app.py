@@ -51,8 +51,11 @@ with tab1:
                 hashed_password = hash_password(password)
                 encrypted_msg = encrypt_message(secret_message)
 
+                # Concatenate password and message
+                final_payload = f"{hashed_password}|||{encrypted_msg}"
+
                 # Hide data in image
-                encoded_img = lsb.hide(img_path, hashed_password + encrypted_msg)
+                encoded_img = lsb.hide(img_path, final_payload)
                 encoded_img.save("encoded_image.png")
 
                 st.success("✅ Image encrypted successfully!")
@@ -84,13 +87,24 @@ with tab2:
                     st.error("❌ Failed to decode the image. Ensure it's correctly encoded.")
                 else:
                     # Extract password hash and encrypted message
-                    stored_hash, encrypted_msg = hidden_data[:60], hidden_data[60:]
+                    try:
+                        stored_hash, encrypted_msg = hidden_data.split("|||", 1)
+                    except ValueError:
+                        st.error("❌ Image does not contain a valid encoded message.")
+                        st.stop()
+
+                    # Debugging log
+                    print(f"[DEBUG] Extracted Hash: {stored_hash}")
+                    print(f"[DEBUG] Extracted Encrypted Message: {encrypted_msg}")
 
                     # Verify password
                     if verify_password(stored_hash, entered_password):
-                        decrypted_text = decrypt_message(encrypted_msg)
-                        st.success("✅ Message decrypted successfully!")
-                        st.text_area("Decrypted Message", decrypted_text, height=100)
+                        try:
+                            decrypted_text = decrypt_message(encrypted_msg)
+                            st.success("✅ Message decrypted successfully!")
+                            st.text_area("Decrypted Message", decrypted_text, height=100)
+                        except Exception as decryption_error:
+                            st.error(f"❌ Error decrypting message: {decryption_error}")
                     else:
                         st.error("❌ Incorrect password!")
 
