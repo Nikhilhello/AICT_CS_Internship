@@ -1,6 +1,7 @@
 import os
-import streamlit as st
-from PIL import Image
+import tkinter as tk
+from tkinter import filedialog, messagebox
+from PIL import Image, ImageTk
 from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
@@ -9,99 +10,136 @@ import bcrypt
 key = Fernet.generate_key()
 cipher_suite = Fernet(key)
 
-# Function to hash password
+def show_main_menu():
+    encrypt_frame.pack_forget()
+    decrypt_frame.pack_forget()
+    main_menu.pack()
+
+def show_encrypt_section():
+    main_menu.pack_forget()
+    encrypt_frame.pack()
+
+def show_decrypt_section():
+    main_menu.pack_forget()
+    decrypt_frame.pack()
+
+def select_image(entry_field):
+    file_path = filedialog.askopenfilename(filetypes=[("Image Files", "*.png;*.jpg")])
+    entry_field.delete(0, tk.END)
+    entry_field.insert(0, file_path)
+
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
-# Function to verify password
 def verify_password(stored_hash, provided_password):
     return bcrypt.checkpw(provided_password.encode(), stored_hash.encode())
 
-# Encrypt a message
 def encrypt_message(message):
     return cipher_suite.encrypt(message.encode()).decode()
 
-# Decrypt a message
 def decrypt_message(encrypted_message):
     return cipher_suite.decrypt(encrypted_message.encode()).decode()
 
-# Streamlit UI
-st.set_page_config(page_title="Steganography Tool", layout="centered")
-st.title("🔏 Steganography Tool")
+def encrypt_image():
+    img_path = encrypt_img_path.get()
+    message = encrypt_message_text.get("1.0", tk.END).strip()
+    password = encrypt_password.get()
+    if not img_path or not message or not password:
+        messagebox.showerror("Error", "All fields are required!")
+        return
+    try:
+        hashed_password = hash_password(password)
+        encrypted_msg = encrypt_message(message)
+        encoded_data = hashed_password + "||" + encrypted_msg
+        img = Image.open(img_path)
+        encoded_img = lsb.hide(img_path, encoded_data)
+        output_path = "encoded_image.png"
+        encoded_img.save(output_path)
+        messagebox.showinfo("Success", "Image encoded successfully!")
+        download_button.pack()
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to encode image: {e}")
 
-menu = st.radio("Select an Option", ["🔏 Encrypt Image", "🔓 Decrypt Image"])
+def download_encoded_image():
+    save_path = filedialog.asksaveasfilename(defaultextension=".png", filetypes=[("PNG files", "*.png")])
+    if save_path:
+        os.rename("encoded_image.png", save_path)
+        messagebox.showinfo("Success", "Image saved successfully!")
 
-if menu == "🔏 Encrypt Image":
-    st.header("Encrypt a Message Inside an Image")
-
-    img_file = st.file_uploader("Upload an Image", type=["png", "jpg"])
-    password = st.text_input("🔑 Enter Password", type="password")
-    message = st.text_area("✉ Enter Secret Message")
-
-    if st.button("🔏 Encrypt & Save Image"):
-        if img_file and password and message:
-            try:
-                hashed_password = hash_password(password)
-                encrypted_msg = encrypt_message(message)
-
-                # Combine hashed password & encrypted message with a delimiter
-                secret_data = hashed_password + "||" + encrypted_msg
-                
-                # Save uploaded image temporarily
-                temp_image_path = "temp_image.png"
-                image = Image.open(img_file)
-                image.save(temp_image_path)
-
-                # Encode message
-                encoded_img = lsb.hide(temp_image_path, secret_data)
-                encoded_img.save("encoded_image.png")
-
-                st.success("✅ Image encoded successfully!")
-                with open("encoded_image.png", "rb") as file:
-                    st.download_button("📥 Download Encoded Image", file, file_name="encoded_image.png")
-            except Exception as e:
-                st.error(f"❌ Error: {e}")
+def decrypt_image():
+    img_path = decrypt_img_path.get()
+    password = decrypt_password.get()
+    if not img_path or not password:
+        messagebox.showerror("Error", "All fields are required!")
+        return
+    try:
+        hidden_data = lsb.reveal(img_path)
+        stored_hash, encrypted_msg = hidden_data.split("||", 1)
+        if verify_password(stored_hash, password):
+            decrypted_message.set(decrypt_message(encrypted_msg))
         else:
-            st.warning("⚠️ Please fill all fields!")
+            decrypted_message.set("Incorrect password!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Failed to decode image: {e}")
 
-elif menu == "🔓 Decrypt Image":
-    st.header("Decrypt a Message from an Image")
+root = tk.Tk()
+root.title("Steganography Tool")
+root.geometry("500x550")
+footer = tk.Label(root, text="Developed by Nikhil K.", font=("Arial", 10), fg="gray")
+footer.pack(side="bottom", pady=10)
 
-    img_file = st.file_uploader("Upload an Encoded Image", type=["png"])
-    password = st.text_input("🔑 Enter Password", type="password")
+main_menu = tk.Frame(root)
+tk.Label(main_menu, text="Steganography Tool", font=("Times New Roman", 25)).pack()
+main_menu.pack()
 
-    if st.button("🔓 Decrypt Message"):
-        if img_file and password:
-            try:
-                # Save uploaded image temporarily
-                temp_image_path = "uploaded_encoded_image.png"
-                image = Image.open(img_file)
-                image.save(temp_image_path)
+encrypt_frame = tk.Frame(root)
+tk.Label(encrypt_frame, text="Encrypt Image", font=("Comic Sans MS", 17, "bold")).pack(pady=10)
 
-                # Extract hidden data
-                hidden_data = lsb.reveal(temp_image_path)
+encrypt_img_path = tk.Entry(encrypt_frame, width=40, font=("Arial", 10))
+encrypt_img_path.pack(pady=5)
 
-                # Extract hashed password and encrypted message
-                parts = hidden_data.split("||", 1)  # Use a delimiter to split stored hash & encrypted message
-                if len(parts) != 2:
-                    st.error("❌ Data format is incorrect. Are you sure this is an encoded image?")
-                else:
-                    stored_hash, encrypted_msg = parts
+encrypt_password = tk.Entry(encrypt_frame, show="*", width=40)
+encrypt_password.pack(pady=1)
 
-                    # Verify password
-                    if verify_password(stored_hash, password):
-                        decrypted_msg = decrypt_message(encrypted_msg)
-                        st.success("✅ Message Decrypted Successfully!")
-                        st.text_area("📩 Decrypted Message", decrypted_msg, height=150)
-                    else:
-                        st.error("❌ Incorrect password!")
+def toggle_encrypt_password():
+    encrypt_password.config(show="" if encrypt_password_toggle_var.get() else "*")
 
-            except Exception as e:
-                st.error(f"❌ Error: {e}")
-        else:
-            st.warning("⚠️ Please upload an image and enter a password!")
+encrypt_password_toggle_var = tk.BooleanVar()
+tk.Checkbutton(encrypt_frame, text="👁 Show Password", variable=encrypt_password_toggle_var, command=toggle_encrypt_password).pack()
 
-# Footer
-st.markdown("---")
-st.markdown("📌 **Developed by Nikhil K.**")
+encrypt_message_text = tk.Text(encrypt_frame, height=4, width=40)
+encrypt_message_text.pack(pady=5)
 
+encrypt_action_button = tk.Button(encrypt_frame, text="🔏 Encrypt", command=encrypt_image, font=("Arial", 13, "bold"), width=15, height=2)
+encrypt_action_button.pack(pady=5)
+
+download_button = tk.Button(encrypt_frame, text="📥 Download Encoded Image", command=download_encoded_image, font=("Arial", 12), width=23, height=1)
+
+back_button_enc = tk.Button(encrypt_frame, text="◀ Back", command=show_main_menu, font=("Tahoma", 13), width=9, height=1)
+back_button_enc.pack(pady=5)
+
+decrypt_frame = tk.Frame(root)
+tk.Label(decrypt_frame, text="Decrypt Image", font=("Comic Sans MS", 17, "bold")).pack(pady=10)
+
+decrypt_img_path = tk.Entry(decrypt_frame, width=40, font=("Arial", 10))
+decrypt_img_path.pack()
+
+decrypt_password = tk.Entry(decrypt_frame, show="*", width=40)
+decrypt_password.pack()
+
+def toggle_decrypt_password():
+    decrypt_password.config(show="" if decrypt_password_toggle_var.get() else "*")
+
+decrypt_password_toggle_var = tk.BooleanVar()
+tk.Checkbutton(decrypt_frame, text="👁 Show Password", variable=decrypt_password_toggle_var, command=toggle_decrypt_password).pack()
+
+decrypt_action_button = tk.Button(decrypt_frame, text="🔓 Decrypt", command=decrypt_image, font=("Arial", 12, "bold"), width=15, height=2)
+decrypt_action_button.pack(pady=5)
+
+decrypted_message = tk.StringVar()
+tk.Label(decrypt_frame, textvariable=decrypted_message, wraplength=400, font=("Arial", 12)).pack(pady=5)
+
+back_button_dec = tk.Button(decrypt_frame, text="◀ Back", command=show_main_menu, font=("Tahoma", 12), width=8, height=1)
+back_button_dec.pack(pady=5)
+
+root.mainloop()
