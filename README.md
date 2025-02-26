@@ -1,9 +1,9 @@
 # AICT_Cyber Security(CS)_Internship_B4_JAN-2025
 This project was developed as part of the **Edunet Foundation internship**, a **6-week program** from **January 15, 2025** to **February 26, 2025**. 
 
-### 👉 "For deployment details, scroll down 👇 or view the end of the README file (deployed in Streamlit.app)."
-
 # 🛡️ Image Steganography and Encryption Tool
+
+### 👉 "For deployment details, scroll down 👇 or view the end of the README file (deployed in Streamlit.app)."
 
 ## 📌 Project Overview  
 This project is a **Steganography and Encryption Tool** that allows users to **securely hide messages inside images** using **Least Significant Bit (LSB) encoding**. Additionally, messages are **encrypted with a password** to ensure data security.
