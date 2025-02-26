@@ -6,7 +6,7 @@ from cryptography.fernet import Fernet
 import bcrypt
 #--------------------------------------------------
 # Sidebar Theme Toggle
-theme_option = st.sidebar.radio("🌓 Select Theme", ["🌞 Light", "🌙 Dark"], index=1)
+theme_option = st.sidebar.radio("🌓 Select Theme", ["🌞 Light", "🌙 Dark"], index=0)
 
 # Define Theme Colors
 light_theme = {
