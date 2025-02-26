@@ -7,39 +7,79 @@ import bcrypt
 
 import streamlit as st
 
-# Theme Toggle
-theme_option = st.sidebar.radio("🌓 Select Theme", ["Light", "Dark"], index=1)
+import streamlit as st
 
-if theme_option == "Dark":
-    dark_theme = {
-        "backgroundColor": "#0e1117",
-        "secondaryBackgroundColor": "#262730",
-        "textColor": "#ffffff",
-        "primaryColor": "#ff4b4b",
-    }
-else:
-    dark_theme = {
-        "backgroundColor": "#ffffff",
-        "secondaryBackgroundColor": "#f0f2f6",
-        "textColor": "#000000",
-        "primaryColor": "#ff4b4b",
-    }
+# Sidebar Theme Toggle
+theme_option = st.sidebar.radio("🌓 Select Theme", ["🌞 Light", "🌙 Dark"], index=1)
 
-# Apply Theme
+# Define Theme Colors
+light_theme = {
+    "backgroundColor": "#ffffff",
+    "secondaryBackgroundColor": "#f0f2f6",
+    "textColor": "#000000",
+    "primaryColor": "#ff4b4b",
+    "buttonColor": "#ff4b4b",
+    "buttonText": "#ffffff",
+}
+
+dark_theme = {
+    "backgroundColor": "#0e1117",
+    "secondaryBackgroundColor": "#262730",
+    "textColor": "#ffffff",
+    "primaryColor": "#ff4b4b",
+    "buttonColor": "#1e90ff",
+    "buttonText": "#ffffff",
+}
+
+# Apply Selected Theme
+theme = dark_theme if theme_option == "🌙 Dark" else light_theme
+
+# Apply Custom CSS for Smooth Theme Transition & UI Enhancements
 st.markdown(
     f"""
     <style>
-    .stApp {{
-        background-color: {dark_theme["backgroundColor"]} !important;
-        color: {dark_theme["textColor"]} !important;
-    }}
-    .stSidebar {{
-        background-color: {dark_theme["secondaryBackgroundColor"]} !important;
-    }}
+        /* Background and Text */
+        .stApp {{
+            background-color: {theme["backgroundColor"]} !important;
+            color: {theme["textColor"]} !important;
+            transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+        }}
+        
+        /* Sidebar */
+        .stSidebar {{
+            background-color: {theme["secondaryBackgroundColor"]} !important;
+        }}
+
+        /* Buttons */
+        .stButton > button {{
+            background-color: {theme["buttonColor"]} !important;
+            color: {theme["buttonText"]} !important;
+            border-radius: 8px;
+            transition: background-color 0.3s ease-in-out;
+        }}
+
+        /* Button Hover */
+        .stButton > button:hover {{
+            background-color: #ff5733 !important;
+            color: #ffffff !important;
+        }}
+
+        /* Inputs and Text Areas */
+        .stTextInput > div > div > input, .stTextArea > div > textarea {{
+            background-color: {theme["secondaryBackgroundColor"]} !important;
+            color: {theme["textColor"]} !important;
+            border-radius: 5px;
+        }}
+
+        /* Titles and Headers */
+        h1, h2, h3, h4, h5, h6 {{
+            color: {theme["textColor"]} !important;
+        }}
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
