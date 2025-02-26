@@ -20,7 +20,7 @@ light_theme = {
 }
 
 dark_theme = {
-    "backgroundColor": "#292929",
+    "backgroundColor": "#303234",
     "secondaryBackgroundColor": "#262730",
     "textColor": "#ffffff",
     "primaryColor": "#ff4b4b",
