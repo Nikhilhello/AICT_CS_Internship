@@ -5,6 +5,44 @@ from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
 
+import streamlit as st
+
+# Theme Toggle
+theme_option = st.sidebar.radio("🌓 Select Theme", ["Light", "Dark"], index=1)
+
+if theme_option == "Dark":
+    dark_theme = {
+        "backgroundColor": "#0e1117",
+        "secondaryBackgroundColor": "#262730",
+        "textColor": "#ffffff",
+        "primaryColor": "#ff4b4b",
+    }
+else:
+    dark_theme = {
+        "backgroundColor": "#ffffff",
+        "secondaryBackgroundColor": "#f0f2f6",
+        "textColor": "#000000",
+        "primaryColor": "#ff4b4b",
+    }
+
+# Apply Theme
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-color: {dark_theme["backgroundColor"]} !important;
+        color: {dark_theme["textColor"]} !important;
+    }}
+    .stSidebar {{
+        background-color: {dark_theme["secondaryBackgroundColor"]} !important;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
 
 
 # Store the encryption key persistently
