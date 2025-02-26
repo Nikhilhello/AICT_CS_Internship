@@ -121,5 +121,5 @@ with tab2:
             st.warning("⚠️ Please provide all inputs.")
 
 st.markdown("---")
-st.markdown("<h2 style='text-align: center;'>👨‍💻 Developed by <b>Nikhil K.</b></h2>", unsafe_allow_html=True)
+st.markdown("style='text-align: center;'>👨‍💻 Developed by <b>Nikhil K.</b>", unsafe_allow_html=True)
 
