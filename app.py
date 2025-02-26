@@ -5,62 +5,101 @@ from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
 
-# Generate and store encryption key
+# Generate encryption key
 key = Fernet.generate_key()
 cipher_suite = Fernet(key)
 
+# Function to hash passwords
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
+# Function to verify password
 def verify_password(stored_hash, provided_password):
     return bcrypt.checkpw(provided_password.encode(), stored_hash.encode())
 
+# Function to encrypt a message
 def encrypt_message(message):
     return cipher_suite.encrypt(message.encode()).decode()
 
+# Function to decrypt a message
 def decrypt_message(encrypted_message):
     return cipher_suite.decrypt(encrypted_message.encode()).decode()
 
-st.title("Steganography Tool - Encrypt & Decrypt Messages")
-option = st.radio("Choose an option:", ("Encrypt", "Decrypt"))
+# Streamlit UI
+st.title("🔐 Image Steganography Tool")
 
-if option == "Encrypt":
-    uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg"])
-    message = st.text_area("Enter the message to hide")
-    password = st.text_input("Enter password", type="password")
-    if st.button("Encrypt Image"):
-        if uploaded_file and message and password:
+# Tab selection
+tab1, tab2 = st.tabs(["Encrypt Image", "Decrypt Image"])
+
+# **Encryption Tab**
+with tab1:
+    st.subheader("🛡️ Encrypt an Image")
+    
+    uploaded_image = st.file_uploader("Upload an image (PNG/JPG)", type=["png", "jpg"])
+    secret_message = st.text_area("Enter the message to hide")
+    password = st.text_input("Enter a secret password", type="password")
+
+    if st.button("🔏 Encrypt and Save Image"):
+        if uploaded_image and secret_message and password:
             try:
-                img = Image.open(uploaded_file)
+                # Save uploaded image temporarily
+                img = Image.open(uploaded_image)
+                img_path = "temp_image.png"
+                img.save(img_path)
+
+                # Encrypt message and hash password
                 hashed_password = hash_password(password)
-                encrypted_msg = encrypt_message(message)
-                encoded_img = lsb.hide(img, hashed_password + encrypted_msg)
-                encoded_img.save("encoded_image.png")
-                st.success("Image encoded successfully!")
-                with open("encoded_image.png", "rb") as file:
-                    st.download_button("Download Encoded Image", file, file_name="encoded_image.png", mime="image/png")
-            except Exception as e:
-                st.error(f"Failed to encode image: {e}")
-        else:
-            st.error("All fields are required!")
+                encrypted_msg = encrypt_message(secret_message)
 
-elif option == "Decrypt":
-    uploaded_file = st.file_uploader("Upload an encoded image", type=["png"])
-    password = st.text_input("Enter password", type="password")
-    if st.button("Decrypt Image"):
-        if uploaded_file and password:
-            try:
-                img = Image.open(uploaded_file)
-                hidden_data = lsb.reveal(img)
-                stored_hash = hidden_data[:60]
-                encrypted_msg = hidden_data[60:]
-                if verify_password(stored_hash, password):
-                    decrypted_text = decrypt_message(encrypted_msg)
-                    st.success("Decryption Successful!")
-                    st.text_area("Decrypted Message:", decrypted_text, height=100)
-                else:
-                    st.error("Incorrect password!")
+                # Hide data in image
+                encoded_img = lsb.hide(img_path, hashed_password + encrypted_msg)
+                encoded_img.save("encoded_image.png")
+
+                st.success("✅ Image encrypted successfully!")
+                st.download_button(label="📥 Download Encrypted Image", data=open("encoded_image.png", "rb").read(),
+                                   file_name="encoded_image.png", mime="image/png")
             except Exception as e:
-                st.error("Failed to decode the image. Ensure it's correctly encoded.")
+                st.error(f"❌ Encryption failed: {e}")
         else:
-            st.error("All fields are required!")
+            st.warning("⚠️ Please provide all inputs.")
+
+# **Decryption Tab**
+with tab2:
+    st.subheader("🔓 Decrypt an Image")
+
+    uploaded_encoded_image = st.file_uploader("Upload an encrypted image", type=["png"])
+    entered_password = st.text_input("Enter the password", type="password")
+
+    if st.button("🔓 Decrypt Message"):
+        if uploaded_encoded_image and entered_password:
+            try:
+                # Save uploaded encrypted image temporarily
+                encoded_img_path = "uploaded_encoded_image.png"
+                with open(encoded_img_path, "wb") as f:
+                    f.write(uploaded_encoded_image.read())
+
+                # Extract hidden data
+                hidden_data = lsb.reveal(encoded_img_path)
+                if hidden_data is None:
+                    st.error("❌ Failed to decode the image. Ensure it's correctly encoded.")
+                else:
+                    # Extract password hash and encrypted message
+                    stored_hash, encrypted_msg = hidden_data[:60], hidden_data[60:]
+
+                    # Verify password
+                    if verify_password(stored_hash, entered_password):
+                        decrypted_text = decrypt_message(encrypted_msg)
+                        st.success("✅ Message decrypted successfully!")
+                        st.text_area("Decrypted Message", decrypted_text, height=100)
+                    else:
+                        st.error("❌ Incorrect password!")
+
+            except Exception as e:
+                st.error(f"❌ Decryption failed: {e}")
+        else:
+            st.warning("⚠️ Please provide all inputs.")
+
+# Footer
+st.markdown("---")
+st.markdown("👨‍💻 Developed by **Nikhil K.**")
+
