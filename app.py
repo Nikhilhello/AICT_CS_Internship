@@ -91,25 +91,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.markdown(
-    f"""
-    <style>
-        /* File Uploader Styling */
-        div[data-testid="stFileDropzone"] div div {{
-            color: {theme["textColor"]} !important;  /* Ensure text is visible */
-            font-weight: bold;
-        }}
 
-        div[data-testid="stFileDropzone"] {{
-            border: 2px dashed {theme["textColor"]} !important; /* Visible border */
-            background-color: {theme["secondaryBackgroundColor"]} !important;
-            border-radius: 10px;
-            padding: 20px;
-        }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 #-----------------------------------------------
 # Store the encryption key persistently
