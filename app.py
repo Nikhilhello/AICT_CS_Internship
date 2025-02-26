@@ -6,18 +6,19 @@ from cryptography.fernet import Fernet
 import bcrypt
 
 
-# Check if the alert has already been shown
-if "alert_shown" not in st.session_state:
-    st.session_state.alert_shown = False
+# Check if the alert has already been dismissed
+if "show_alert" not in st.session_state:
+    st.session_state.show_alert = True  # Show alert initially
 
-# Function to show alert only once
-def show_alert_once():
-    if not st.session_state.alert_shown:
-        st.info("🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.")
-        st.session_state.alert_shown = True  # Set flag to True so it doesn't show again
+# Function to dismiss the alert
+def dismiss_alert():
+    st.session_state.show_alert = False
 
-# Call the function to show the alert on page load
-show_alert_once()
+# Display the alert only if it hasn't been dismissed
+if st.session_state.show_alert:
+    st.warning("🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.")
+    st.button("❌ Dismiss", on_click=dismiss_alert)  # Dismiss button
+
 
 
 
