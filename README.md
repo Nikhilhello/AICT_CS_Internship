@@ -91,11 +91,11 @@ The **core algorithm remains the same**, but modifications were made to adapt th
 1. **app.py** → The main Streamlit script.                              
 2. **requirements.txt** → Contains all required Python dependencies.               
 
-## for more detailed information check out the 
+## 👉 "For more detailed information, check out the 'Deployed' directory/folder."
 
 ### **🎓 Credits**               
 Developed by **Nikhil K**   
 
-**_🔒 Stay Secure, Stay Private! 🔐_**
+## **_🔒 Stay Secure, Stay Private! 🔐_**
 
 
