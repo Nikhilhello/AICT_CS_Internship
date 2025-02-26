@@ -5,6 +5,20 @@ from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
 
+def show_alert(message, alert_type="info"):
+    if alert_type == "info":
+        st.info(message)
+    elif alert_type == "success":
+        st.success(message)
+    elif alert_type == "warning":
+        st.warning(message)
+    elif alert_type == "error":
+        st.error(message)
+
+# Example Usage:
+show_alert("Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.", "info")
+
+
 # Store the encryption key persistently
 KEY_FILE = "secret.key"
 
