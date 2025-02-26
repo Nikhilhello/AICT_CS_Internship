@@ -6,6 +6,8 @@ from cryptography.fernet import Fernet
 import bcrypt
 
 
+import streamlit as st
+
 # Check if the alert has already been dismissed
 if "show_alert" not in st.session_state:
     st.session_state.show_alert = True  # Show alert initially
@@ -16,8 +18,43 @@ def dismiss_alert():
 
 # Display the alert only if it hasn't been dismissed
 if st.session_state.show_alert:
-    st.warning("🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.")
-    st.button("❌ Dismiss", on_click=dismiss_alert)  # Dismiss button
+    st.markdown(
+        """
+        <style>
+        .alert-box {
+            padding: 15px;
+            background-color: #ffcc00;
+            color: black;
+            border-radius: 5px;
+            position: relative;
+            font-size: 16px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+        }
+        </style>
+        <div class="alert-box">
+            🔔 Welcome to the Steganography Tool! Encrypt and Decrypt your messages securely.
+            <span class="close-btn" onclick="dismissAlert()">❌</span>
+        </div>
+        <script>
+        function dismissAlert() {
+            var alertBox = document.querySelector('.alert-box');
+            if (alertBox) {
+                alertBox.style.display = 'none';
+            }
+        }
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+
 
 
 
