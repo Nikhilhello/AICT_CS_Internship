@@ -57,20 +57,38 @@ with tab1:
     if st.button("🔏 Encrypt and Save Image"):
         if uploaded_image and secret_message and password:
             try:
+                st.write("⏳ Encrypting, please wait...")
+                progress_bar = st.progress(0)  # Initialize progress bar
+
                 img = Image.open(uploaded_image)
                 img_path = "temp_image.png"
                 img.save(img_path)
 
+                # Update progress
+                progress_bar.progress(25)
+
                 # Encrypt message & hash password
                 hashed_password = hash_password(password)
                 encrypted_msg = encrypt_message(secret_message)
+
+                # Update progress
+                progress_bar.progress(50)
 
                 # Concatenate hash and encrypted message
                 final_payload = f"{hashed_password}|||{encrypted_msg}"
 
                 # Hide data in image
                 encoded_img = lsb.hide(img_path, final_payload)
+                
+                # Update progress
+                progress_bar.progress(75)
+
                 encoded_img.save("encoded_image.png")
+
+                # Final progress update
+                progress_bar.progress(100)
+                time.sleep(0.5)
+                progress_bar.empty()
 
                 st.success("✅ Image encrypted successfully!")
                 st.download_button(label="📥 Download Encrypted Image", data=open("encoded_image.png", "rb").read(),
@@ -79,6 +97,7 @@ with tab1:
                 st.error(f"❌ Encryption failed: {e}")
         else:
             st.warning("⚠️ Please provide all inputs.")
+
 
 
 
