@@ -5,27 +5,31 @@ from stegano import lsb
 from cryptography.fernet import Fernet
 import bcrypt
 
-# Generate encryption key
+# Generate a key for encryption
 key = Fernet.generate_key()
 cipher_suite = Fernet(key)
 
-# Streamlit UI
-st.title("🛡️ Steganography Tool")
-
-# Sidebar for navigation
-menu = st.sidebar.radio("Navigation", ["🔏 Encrypt Image", "🔓 Decrypt Image"])
-
+# Function to hash password
 def hash_password(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
+# Function to verify password
 def verify_password(stored_hash, provided_password):
     return bcrypt.checkpw(provided_password.encode(), stored_hash.encode())
 
+# Encrypt a message
 def encrypt_message(message):
     return cipher_suite.encrypt(message.encode()).decode()
 
+# Decrypt a message
 def decrypt_message(encrypted_message):
     return cipher_suite.decrypt(encrypted_message.encode()).decode()
+
+# Streamlit UI
+st.set_page_config(page_title="Steganography Tool", layout="centered")
+st.title("🔏 Steganography Tool")
+
+menu = st.radio("Select an Option", ["🔏 Encrypt Image", "🔓 Decrypt Image"])
 
 if menu == "🔏 Encrypt Image":
     st.header("Encrypt a Message Inside an Image")
@@ -39,6 +43,9 @@ if menu == "🔏 Encrypt Image":
             try:
                 hashed_password = hash_password(password)
                 encrypted_msg = encrypt_message(message)
+
+                # Combine hashed password & encrypted message with a delimiter
+                secret_data = hashed_password + "||" + encrypted_msg
                 
                 # Save uploaded image temporarily
                 temp_image_path = "temp_image.png"
@@ -46,7 +53,7 @@ if menu == "🔏 Encrypt Image":
                 image.save(temp_image_path)
 
                 # Encode message
-                encoded_img = lsb.hide(temp_image_path, hashed_password + encrypted_msg)
+                encoded_img = lsb.hide(temp_image_path, secret_data)
                 encoded_img.save("encoded_image.png")
 
                 st.success("✅ Image encoded successfully!")
@@ -66,21 +73,35 @@ elif menu == "🔓 Decrypt Image":
     if st.button("🔓 Decrypt Message"):
         if img_file and password:
             try:
+                # Save uploaded image temporarily
                 temp_image_path = "uploaded_encoded_image.png"
                 image = Image.open(img_file)
                 image.save(temp_image_path)
 
+                # Extract hidden data
                 hidden_data = lsb.reveal(temp_image_path)
-                stored_hash = hidden_data[:60]  # Extract hashed password
-                encrypted_msg = hidden_data[60:]  # Extract encrypted message
 
-                if verify_password(stored_hash, password):
-                    decrypted_msg = decrypt_message(encrypted_msg)
-                    st.success("✅ Message Decrypted Successfully!")
-                    st.text_area("📩 Decrypted Message", decrypted_msg, height=150)
+                # Extract hashed password and encrypted message
+                parts = hidden_data.split("||", 1)  # Use a delimiter to split stored hash & encrypted message
+                if len(parts) != 2:
+                    st.error("❌ Data format is incorrect. Are you sure this is an encoded image?")
                 else:
-                    st.error("❌ Incorrect password!")
+                    stored_hash, encrypted_msg = parts
+
+                    # Verify password
+                    if verify_password(stored_hash, password):
+                        decrypted_msg = decrypt_message(encrypted_msg)
+                        st.success("✅ Message Decrypted Successfully!")
+                        st.text_area("📩 Decrypted Message", decrypted_msg, height=150)
+                    else:
+                        st.error("❌ Incorrect password!")
+
             except Exception as e:
                 st.error(f"❌ Error: {e}")
         else:
             st.warning("⚠️ Please upload an image and enter a password!")
+
+# Footer
+st.markdown("---")
+st.markdown("📌 **Developed by Nikhil K.**")
+
