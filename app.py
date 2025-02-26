@@ -143,6 +143,30 @@ with tab3:
     - If decryption fails, ensure the correct password and image are used.
     """)
 
+
+with st.sidebar:
+    if st.button("📌 Notes / Info"):
+        st.markdown("""
+        ## 📝 Important Notes & Process Explanation  
+
+        🔹 **Input Image Formats:** You can upload images in **PNG, JPG, or JPEG** formats.  
+        🔹 **Output Format:** The encoded image will always be saved in **PNG format**.  
+
+        ### 🔄 Why is the output in PNG format?  
+        - **PNG is a lossless format**, meaning it does not compress image data, which is important for hiding messages without data loss.  
+        - **JPG/JPEG are lossy formats**, which means they compress and change pixel values, potentially corrupting hidden messages.  
+        - To **preserve message integrity**, all encoded images are converted to **PNG** automatically.  
+
+        ### 🔧 Encoding Process:  
+        1️⃣ Upload an image (PNG, JPG, JPEG).  
+        2️⃣ Enter a secret message and a password.  
+        3️⃣ The message is encrypted and hidden inside the image.  
+        4️⃣ The encoded image is saved as **PNG** to avoid data loss.  
+        5️⃣ During decryption, the tool extracts and decrypts the hidden message.  
+
+        ⚠ **Note:** Always use the same password for decryption, and ensure the encoded image is in **PNG format** when decoding.  
+        """)
+
 st.markdown("---")
 st.markdown(
     "<div style='text-align: center;'>👨‍💻 Developed by Nikhil K.</div>",
