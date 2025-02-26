@@ -7,25 +7,6 @@ import bcrypt
 
 
 
-# Check if the alert has already been shown
-if "alert_shown" not in st.session_state:
-    st.session_state.alert_shown = False
-
-def show_alert():
-    if not st.session_state.alert_shown:
-        st.warning("Welcome! Encrypt and decrypt your messages securely. ⚡")
-        st.session_state.alert_shown = True  # Mark alert as shown
-
-# Call the function at the start of the app
-show_alert()
-
-
-
-
-
-
-
-
 # Store the encryption key persistently
 KEY_FILE = "secret.key"
 
@@ -62,7 +43,7 @@ def decrypt_message(encrypted_message):
 # Streamlit UI
 st.title("🔐 Image Steganography Tool")
 
-tab1, tab2 = st.tabs(["Encrypt Image", "Decrypt Image"])
+tab1, tab2, tab3 = st.tabs(["Encrypt Image", "Decrypt Image","❓ Help"])
 
 # **Encryption Tab**
 with tab1:
@@ -140,6 +121,27 @@ with tab2:
                 st.error(f"❌ Decryption failed: {e}")
         else:
             st.warning("⚠️ Please provide all inputs.")
+
+with tab3:
+    st.markdown("""
+    ## 🛠 How to Use the Steganography Tool?
+    
+    1️⃣ **Encryption:**
+    - Upload an image.
+    - Enter a secret message and a password.
+    - Click "Encrypt" to hide the message in the image.
+    - Download the encoded image.
+
+    2️⃣ **Decryption:**
+    - Upload the encoded image.
+    - Enter the correct password.
+    - Click "Decrypt" to reveal the hidden message.
+
+    ⚠ **Important Notes:**
+    - Use the same password to decrypt the message.
+    - Only images encoded using this tool can be decrypted.
+    - If decryption fails, ensure the correct password and image are used.
+    """)
 
 st.markdown("---")
 st.markdown(
