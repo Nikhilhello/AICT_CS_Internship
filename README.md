@@ -89,7 +89,9 @@ The **core algorithm remains the same**, but modifications were made to adapt th
 
 # Required Files:                      
 1. **app.py** → The main Streamlit script.                              
-2. **requirements.txt** → Contains all required Python dependencies.               
+2. **requirements.txt** → Contains all required Python dependencies.
+3. **packages.txt** → need to tell Streamlit to install this system dependency by using a special file called packages.txt.
+          
 
 ## 👉 "For more detailed information, check out the 'Deployed' directory/folder."
 
