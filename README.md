@@ -1,4 +1,4 @@
-# AICT_Cyber Security(CS)_Internship_B4_JAN-2025
+# AICTE_Cyber Security(CS)_Internship_B4_JAN-2025
 This project was developed as part of the **Edunet Foundation internship**, a **6-week program** from **January 15, 2025** to **February 26, 2025**. 
 
 # 🛡️ Image Steganography and Encryption Tool
