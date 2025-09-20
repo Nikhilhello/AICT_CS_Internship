@@ -95,6 +95,9 @@ The **core algorithm remains the same**, but modifications were made to adapt th
 
 ## 👉 "For more detailed information, check out the 'Deployed' directory/folder."
 
+<img width="1719" height="847" alt="image" src="https://github.com/user-attachments/assets/0b59068f-0a7c-4190-95d8-c6a28d898ee7" />
+
+
 ### **🎓 Credits**               
 Developed by **Nikhil K**   
 
